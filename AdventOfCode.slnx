@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Utilities/Utilities.csproj" />
+  <Project Path="Year2023/Year2023.csproj" />
+</Solution>
