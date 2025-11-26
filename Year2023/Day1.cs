@@ -1,6 +1,8 @@
-﻿namespace Year2023
+﻿using Utilities;
+
+namespace Year2023
 {
-    internal static class Day1
+    public class Day1
     {
         public static int Part1(List<string> lines)
         {
@@ -12,7 +14,17 @@
             return answer;
         }
 
-        public static List<int> ExtractDigits(string line)
+        public static int Part2(List<string> lines)
+        {
+            var answer = lines
+                .Select(ExtractAlphas)
+                .Select(FirstAndLastDigits)
+                .Sum();
+
+            return answer;
+        }
+
+        private static List<int> ExtractDigits(string line)
         {
             List<int> values = [];
             for (var i = 0; i < line.Length; i++)
@@ -25,7 +37,7 @@
             return values;
         }
 
-        public static List<int> ExtractAlphas(string line)
+        private static List<int> ExtractAlphas(string line)
         {
             var swaps = new Dictionary<string, int>
             {
@@ -60,7 +72,7 @@
 
         }
 
-        public static int FirstAndLastDigits(List<int> numbers)
+        private static int FirstAndLastDigits(List<int> numbers)
         {
             var first = numbers.First();
             var last = numbers.Last();
@@ -68,14 +80,16 @@
             return (first * 10) + last;
         }
 
-        public static int Part2(List<string> lines)
+        [Fact]
+        public void Day1_Part1_Example1()
         {
-            var answer = lines
-                .Select(ExtractAlphas)
-                .Select(FirstAndLastDigits)
-                .Sum();
+            Assert.Equal(142, Day1.Part1(Input.Strings(@"day1example1.txt")));
+        }
 
-            return answer;
+        [Fact]
+        public void Day1_Part2_Example2()
+        {
+            Assert.Equal(281, Day1.Part2(Input.Strings(@"day1example2.txt")));
         }
     }
 }
