@@ -1,0 +1,70 @@
+﻿Part1("example2.txt");
+Part2("example1.txt");
+
+void Part1(string selectedInput)
+{
+    Console.WriteLine("----Part 1----");
+    var lines = File.ReadAllLines(selectedInput).ToList();
+
+    var x = 1;
+    var cycle = 0;
+    int? amountToAdd = null;
+    var totalSignal = 0;
+    var sampleCycles = new [] { 20, 60, 100, 140, 180, 220 };
+    var instructionEnumerator = lines.GetEnumerator();
+    do
+    {
+        Console.WriteLine($"Before cycle {cycle}: register {x}, amountToAdd={amountToAdd}");
+        if (sampleCycles.Contains(cycle))
+        {
+            var signal = (cycle * x);
+            Console.WriteLine($"Cycle {cycle}: register {x}, signal {signal}");
+            totalSignal += signal;
+        }
+        
+
+        if (amountToAdd.HasValue)
+        {
+            x += amountToAdd.Value;
+            amountToAdd = null;
+        }
+        else
+        {
+            var gotInstruction = instructionEnumerator.MoveNext();
+            if (gotInstruction)
+            {
+                var instruction = instructionEnumerator.Current;
+                if (instruction.StartsWith("addx"))
+                {
+                    amountToAdd = Convert.ToInt32(instruction.Split(" ")[1]);
+                }
+            }
+        }
+
+        //Console.WriteLine($"After cycle {cycle}: register {x}");
+        
+
+        cycle++;
+    } while (instructionEnumerator.Current != null || amountToAdd.HasValue);
+
+    Console.WriteLine("----Part 1 Answer----");
+
+    Console.WriteLine(totalSignal);
+}
+
+void Part2(string selectedInput)
+{
+    Console.WriteLine("----Part 2----");
+    var lines = File.ReadAllLines(selectedInput).ToList();
+
+    Console.WriteLine("----Part 2 Answer----");
+}
+
+enum InstructionState
+{
+    None,
+    Noop,
+    AddXStart,
+    AddXEnd
+}
+

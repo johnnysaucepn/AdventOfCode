@@ -1,0 +1,66 @@
+﻿Part1("example1.txt");
+Part2("example1.txt");
+
+void Part1(string selectedInput)
+{
+    Console.WriteLine("----Part 1----");
+    var lines = File.ReadAllLines(selectedInput).ToList();
+
+    var actions = new Dictionary<int, int>();
+    var x = 1;
+    var cycle = 1;
+    var totalSignal = 0;
+    var sampleCycles = new [] { 20, 60, 100, 140, 180, 220 };
+    do
+    {
+                // Phase 2 - record values
+        if (sampleCycles.Contains(cycle))
+        {
+            var signal = (cycle * x);
+            Console.WriteLine($"Cycle {cycle}: register {x}, signal {signal}");
+            totalSignal += signal;
+        }
+        
+        // Phase 1 - read instruction
+        if (cycle <= lines.Count())
+        {
+            var instruction = lines[cycle-1];
+        
+            if (instruction.StartsWith("addx"))
+            {
+                var when = cycle + 2; // At the end of the next cycle
+                var amount = Convert.ToInt32(instruction.Split(" ")[1]);
+                if (actions.ContainsKey(when))
+                {
+                    actions[when] += amount;
+                }
+                else
+                {   
+                    actions[when] = amount;
+                }
+            }
+        }
+
+        //Console.WriteLine($"during: {x}");
+
+        // Phase 3 - update values
+        if (actions.ContainsKey(cycle))
+        {
+            x += actions[cycle];
+            actions.Remove(cycle);
+        }
+        Console.WriteLine($"after: {x}");
+
+        cycle++;
+    } while (cycle < lines.Count() || actions.Count() > 0);
+
+    Console.WriteLine("----Part 1 Answer----");
+}
+
+void Part2(string selectedInput)
+{
+    Console.WriteLine("----Part 2----");
+    var lines = File.ReadAllLines(selectedInput).ToList();
+
+    Console.WriteLine("----Part 2 Answer----");
+}
