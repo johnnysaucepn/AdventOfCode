@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Utilities;
+﻿using Utilities;
 
 namespace Year2023;
 
@@ -37,9 +36,9 @@ public class Day3
             }
         }
 
-        var includeMap = DumpBooleanArray(include);
+        var includeMap = Format.DumpBooleanArray(include);
         Console.WriteLine(includeMap);
-        //var numberMap = DumpArray(numbers);
+        //var numberMap = Format.DumpArray(numbers);
         //Console.WriteLine(numberMap);
 
         var total = 0;
@@ -80,33 +79,7 @@ public class Day3
         return 0;
     }
 
-    private static string DumpBooleanArray(bool[,] array)
-    {
-        var sb = new StringBuilder();
-        for (int y = 0; y < array.GetLength(1); y++)
-        {
-            for (int x = 0; x < array.GetLength(0); x++)
-            {
-                sb.Append(array[x, y] ? "O" : ".");
-            }
-            sb.AppendLine();
-        }
-        return sb.ToString();
-    }
 
-    private static string DumpArray<T>(T[,] array)
-    {
-        var sb = new StringBuilder();
-        for (int y = 0; y < array.GetLength(1); y++)
-        {
-            for (int x = 0; x < array.GetLength(0); x++)
-            {
-                sb.Append(array[x, y]);
-            }
-            sb.AppendLine();
-        }
-        return sb.ToString();
-    }
 
     [Fact]
     public void Day3_Part1_Example1()
