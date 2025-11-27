@@ -4,7 +4,9 @@
     {
         public static List<string> Strings(string filename)
         {
-            var lines = File.ReadAllLines(filename).ToList();
+            var lines = File.ReadAllLines(filename)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
             return lines;
         }
     }
