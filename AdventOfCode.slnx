@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Utilities/Utilities.csproj" />
+  <Project Path="Year2021/Year2021.csproj" Id="f6bdb5eb-0254-449b-8a8e-b35b17e49668" />
   <Project DefaultStartup="true" Path="Year2023/Year2023.csproj" />
 </Solution>
