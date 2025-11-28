@@ -5,7 +5,7 @@ public class Grid<T>
     public int Width;
     public int Height;
 
-    private T[,] _data;
+    private readonly T[,] _data;
 
     public Grid(int width, int height)
     {
@@ -24,12 +24,12 @@ public class Grid<T>
         return _data[coord.X, coord.Y];
     }
 
-    private void SetAt(int x, int y, T val)
+    public void SetAt(int x, int y, T val)
     {
         _data[x, y] = val;
     }
 
-    private void SetAt(Coord coord, T val)
+    public void SetAt(Coord coord, T val)
     {
         _data[coord.X, coord.Y] = val;
     }
@@ -45,14 +45,29 @@ public class Grid<T>
         return true;
     }
 
-    public static Grid<char> FromLines(List<string> lines)
+    public static Grid<char> FromLinesAlpha(List<string> lines)
     {
-        var grid = new Grid<char>(lines.Count, lines[0].Length);
+        var grid = new Grid<char>(lines[0].Length, lines.Count);
         for (var y = 0; y < grid.Height; y++)
         {
             for (var x = 0; x < grid.Width; x++)
             {
                 grid.SetAt(x, y, lines[y][x]);
+            }
+        }
+
+        return grid;
+    }
+
+    public static Grid<int> FromLinesNumeric(List<string> lines)
+    {
+        var grid = new Grid<int>(lines[0].Length, lines.Count);
+        for (var y = 0; y < grid.Height; y++)
+        {
+            for (var x = 0; x < grid.Width; x++)
+            {
+                var val = (int)char.GetNumericValue(lines[y][x]);
+                grid.SetAt(x, y, val);
             }
         }
 
