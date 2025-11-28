@@ -4,94 +4,164 @@ namespace Year2023;
 
 public class Day3
 {
+    public record Part
+    {
+        public char Symbol;
+        public Coord Location;
+
+        public Part(char symbol, Coord location)
+        {
+            Symbol = symbol;
+            Location = location;
+        }
+    }
+
+    public record PartNumber
+    {
+        public int Value;
+        public List<Part> LinkedParts = [];
+    }
+
     public static int Part1(List<string> lines)
     {
-        var height = lines.Count;
-        var width = lines[0].Length;
+        var grid = Grid<char>.FromLines(lines);
 
-        bool[,] include = new bool[width, height];
-        //int[,] numbers = new int[width, height];
-
-        for (int y = 0; y < height; y++)
+        List<PartNumber> partsFound = FindParts(lines, grid);
+        foreach (var part in partsFound)
         {
-            for (int x = 0; x < width; x++)
-            {
-                var entry = lines[y][x];
-
-                if (!char.IsDigit(entry) && entry != '.')
-                {
-                    var left = (x < 0) ? 0 : x - 1;
-                    var right = (x >= width - 1) ? width - 1 : x + 1;
-                    var up = (y < 0) ? 0 : y - 1;
-                    var down = (y >= height - 1) ? height - 1 : y + 1;
-                    include[left, up] = true;
-                    include[x, up] = true;
-                    include[right, up] = true;
-                    include[left, y] = true;
-                    include[right, y] = true;
-                    include[left, down] = true;
-                    include[x, down] = true;
-                    include[right, down] = true;
-                }
-            }
+            Console.WriteLine($"{part.Value}, {part.LinkedParts.Count}");
         }
+        var total = partsFound
+            .Where(p => p.LinkedParts.Count > 0)
+            .Sum(p => p.Value);
 
-        var includeMap = Format.DumpBooleanArray(include);
-        Console.WriteLine(includeMap);
-        //var numberMap = Format.DumpArray(numbers);
-        //Console.WriteLine(numberMap);
-
-        var total = 0;
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                var entry = lines[y][x];
-                var adjacent = false;
-                if (char.IsDigit(entry))
-                {
-                    var extent = 0;
-                    while ((x + extent <= width - 1) && char.IsDigit(lines[y][x + extent]))
-                    {
-                        if (include[x + extent, y] == true)
-                        {
-                            adjacent = true;
-                        }
-                        extent++;
-                    }
-                    var partNumberString = lines[y].Substring(x, extent);
-                    var partNumber = int.Parse(partNumberString);
-                    if (adjacent)
-                    {
-                        total += partNumber;
-                    }
-                    x += extent;
-                }
-
-            }
-        }
         return total;
     }
 
     public static int Part2(List<string> lines)
     {
+        var grid = Grid<char>.FromLines(lines);
 
-        return 0;
+        List<PartNumber> partsFound = FindParts(lines, grid);
+
+        Dictionary<Part, List<int>> partCount = [];
+
+        foreach (var partNumber in partsFound)
+        {
+            foreach (var part in partNumber.LinkedParts)
+            {
+                if (!partCount.ContainsKey(part)) { partCount[part] = []; }
+                partCount[part].Add(partNumber.Value);
+            }
+        }
+
+        var total = partCount
+            .Where(c => c.Key.Symbol == '*' && c.Value.Count == 2)
+            .Select(c =>
+            {
+                var product = 1;
+                foreach (var factor in c.Value)
+                {
+                    product *= factor;
+                }
+                return product;
+            }).Sum();
+
+        return total;
     }
 
 
+    private static List<PartNumber> FindParts(List<string> lines, Grid<char> grid)
+    {
+        List<PartNumber> partsFound = [];
+
+        for (int y = 0; y < grid.Height; y++)
+        {
+            for (int x = 0; x < grid.Width;)
+            {
+                var entry = grid.GetAt(x, y);
+
+                if (char.IsDigit(entry))
+                {
+                    var extent = 0;
+                    List<Part> candidateParts = [];
+                    var finished = false;
+                    while (!finished)
+                    {
+                        var scanPoint = new Coord(x + extent, y);
+                        if (!grid.InBounds(scanPoint) || !char.IsDigit(grid.GetAt(scanPoint)))
+                        {
+                            finished = true;
+                        }
+                        else
+                        {
+                            candidateParts.AddRange(FindConnectedParts(grid, scanPoint));
+                            extent++;
+                        }
+                    }
+                    var partNumberString = string.Concat(grid.GetSequence(x, y, extent));
+                    var partNumber = int.Parse(partNumberString);
+
+                    partsFound.Add(new PartNumber() { Value = partNumber, LinkedParts = candidateParts.Distinct().ToList() });
+
+                    x += extent;
+                }
+                else
+                {
+                    x++;
+                }
+
+            }
+        }
+
+        return partsFound;
+    }
+
+    public static List<Part> FindConnectedParts(Grid<char> grid, Coord here)
+    {
+        List<Part> partsFound = [];
+
+        var left = new Coord(here.X - 1, here.Y);
+        var topLeft = new Coord(here.X - 1, here.Y - 1);
+        var top = new Coord(here.X, here.Y - 1);
+        var topRight = new Coord(here.X + 1, here.Y - 1);
+        var right = new Coord(here.X + 1, here.Y);
+        var bottomRight = new Coord(here.X + 1, here.Y + 1);
+        var bottom = new Coord(here.X, here.Y + 1);
+        var bottomLeft = new Coord(here.X - 1, here.Y + 1);
+
+        List<Coord> coordList = [left, topLeft, top, topRight, right, bottomRight, bottom, bottomLeft];
+
+        foreach (var coord in coordList)
+        {
+            if (grid.InBounds(coord))
+            {
+                var entry = grid.GetAt(coord);
+                if (IsPartSymbol(entry))
+                {
+                    var part = new Part(entry, coord);
+                    partsFound.Add(part);
+                }
+            }
+        }
+        return partsFound.Distinct().ToList();
+    }
+
+    public static bool IsPartSymbol(char test)
+    {
+        return test != '.' && !char.IsDigit(test);
+    }
 
     [Fact]
     public void Day3_Part1_Example1()
     {
-        Assert.Equal(4361, Part1(Input.Strings(@"day3example1.txt")));
+        Assert.Equal(4361, Part1(Input.Strings(@"day3example.txt")));
     }
 
     [Fact]
     public void Day3_Part2_Example2()
     {
-        Assert.Fail();
-        //Assert.Equal(0, Part2(Input.Strings(@"dayXexample2.txt")));
+        Assert.Equal(467835, Part2(Input.Strings(@"day3example.txt")));
     }
 
 }
