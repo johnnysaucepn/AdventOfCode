@@ -5,7 +5,7 @@ namespace Year2021;
 
 public class Day8
 {
-    public static int Part1(List<string> lines)
+    public int Part1(List<string> lines)
     {
         var answer = lines
             .Select(ParseNote)
@@ -15,13 +15,13 @@ public class Day8
         return answer;
     }
 
-    private static Note ParseNote(string noteString)
+    private Note ParseNote(string noteString)
     {
         var parts = noteString.Split('|');
         var patterns = parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
         var outputs = parts[1].Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
-        return new Note(patterns, outputs);
 
+        return new Note(patterns, outputs);
     }
 
     private static int FindUniqueDigits(Note note)
@@ -35,7 +35,7 @@ public class Day8
         return count;
     }
 
-    public static int Part2(List<string> lines)
+    public int Part2(List<string> lines)
     {
         var answer = lines
             .Select(ParseNote)
@@ -148,16 +148,16 @@ public class Day8
         Assert.Equal(61229, Part2(Input.Strings(@"day8example2.txt")));
     }
 
-}
-
-internal class Note
-{
-    public List<string> Patterns { get; private set; }
-    public List<string> Outputs { get; private set; }
-
-    public Note(List<string> patterns, List<string> outputs)
+    class Note
     {
-        Patterns = patterns;
-        Outputs = outputs;
+        public List<string> Patterns { get; private set; }
+        public List<string> Outputs { get; private set; }
+
+        public Note(List<string> patterns, List<string> outputs)
+        {
+            Patterns = patterns;
+            Outputs = outputs;
+        }
     }
 }
+
