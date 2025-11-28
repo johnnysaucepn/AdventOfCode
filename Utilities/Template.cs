@@ -2,16 +2,14 @@
 
 /*public class Template
 {
-    public static int Part1(List<string> lines)
+    public int Part1(List<string> lines)
     {
-
-        return answer;
+        throw new NotImplementedException();
     }
 
-    public static int Part2(List<string> lines)
+    public int Part2(List<string> lines)
     {
-
-        return answer;
+        throw new NotImplementedException();
     }
 
     [Fact]
