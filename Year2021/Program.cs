@@ -6,3 +6,6 @@ Runner.Run("Day 8, Part 2", () => new Day8().Part2(Input.Strings(@"day8input.txt
 
 Runner.Run("Day 9, Part 1", () => new Day9().Part1(Input.Strings(@"day9input.txt")));
 Runner.Run("Day 9, Part 2", () => new Day9().Part2(Input.Strings(@"day9input.txt")));
+
+Runner.Run("Day 10, Part 1", () => new Day10().Part1(Input.Strings(@"day10input.txt")));
+Runner.Run("Day 10, Part 2", () => new Day10().Part2(Input.Strings(@"day10input.txt")));
