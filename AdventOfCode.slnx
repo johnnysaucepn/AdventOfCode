@@ -2,4 +2,5 @@
   <Project Path="Utilities/Utilities.csproj" />
   <Project Path="Year2021/Year2021.csproj" Id="f6bdb5eb-0254-449b-8a8e-b35b17e49668" />
   <Project DefaultStartup="true" Path="Year2023/Year2023.csproj" />
+  <Project Path="Year2025/Year2025.csproj" Id="62120e49-e75d-4bbb-af42-77e2b3dd3720" />
 </Solution>
