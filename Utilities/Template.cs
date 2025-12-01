@@ -1,6 +1,7 @@
-﻿namespace Year2023;
+﻿using Utilities;
+using Xunit;
 
-/*public class Template
+public class Template
 {
     public int Part1(List<string> lines)
     {
@@ -24,4 +25,4 @@
         Assert.Equal(0, Part2(Input.Strings(@"dayXexample2.txt")));
     }
 
-}*/
+}

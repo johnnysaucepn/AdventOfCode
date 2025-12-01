@@ -14,7 +14,8 @@ public static class Runner
         Console.SetOut(defaultStream);
 
         AnsiConsole.Write(new Rule(title));
-        AnsiConsole.MarkupLine($"[grey]{stringWriter}[/]");
+        var escaped = stringWriter.ToString().EscapeMarkup();
+        AnsiConsole.MarkupLine($"[grey]{escaped}[/]");
         AnsiConsole.Write(new Rule("Result"));
         AnsiConsole.MarkupLine($"[green]{result}[/]");
         AnsiConsole.Write(new Rule());
