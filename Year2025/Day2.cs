@@ -57,16 +57,16 @@ namespace Year2025
         [InlineData(1, false)]
         [InlineData(101, false)]
         [InlineData(446447, false)]
-        public void Day2_IsInvalid(long candidate, bool expected)
+        public void Day2_IsInvalidDouble(long candidate, bool expected)
         {
-            Assert.Equal(expected, IsInvalid(candidate));
+            Assert.Equal(expected, IsInvalidDouble(candidate));
         }
 
         [Theory]
         [InlineData(11, 22, new long[] { 11, 22 })]
-        public void Day2_FindInvalid(long start, long end, long[] expected)
+        public void Day2_FindInvalid_Double(long start, long end, long[] expected)
         {
-            Assert.Equal(expected, FindInvalid(start, end));
+            Assert.Equal(expected, FindInvalid(start, end, IsInvalidDouble));
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace Year2025
         [Fact]
         public void Day2_Part2_Example()
         {
-            Assert.Equal(0, Part2(Input.Strings(@"dayXexample2.txt")));
+            Assert.Equal(0, Part2(Input.Strings(@"day2example.txt")));
         }
     }
 }
