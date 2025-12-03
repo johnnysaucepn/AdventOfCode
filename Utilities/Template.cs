@@ -3,12 +3,12 @@ using Xunit;
 
 public class Template
 {
-    public int Part1(List<string> lines)
+    public long Part1(List<string> lines)
     {
         throw new NotImplementedException();
     }
 
-    public int Part2(List<string> lines)
+    public long Part2(List<string> lines)
     {
         throw new NotImplementedException();
     }
