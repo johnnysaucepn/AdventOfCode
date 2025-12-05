@@ -9,14 +9,14 @@ namespace Year2021
 
         public int Part1(List<string> lines)
         {
-            grid = Grid<int>.FromLinesNumeric(lines);
+            grid = GridFactory<>.FromLinesNumeric(lines);
             var lowest = FindLowest().ToList();
             return lowest.Sum(x => grid.GetAt(x) + 1);
         }
 
         public int Part2(List<string> lines)
         {
-            grid = Grid<int>.FromLinesNumeric(lines);
+            grid = GridFactory<>.FromLinesNumeric(lines);
             var lowest = FindLowest().ToList();
             var basins = lowest
                 .Select(l => FindBasin(l).Distinct()).ToList();

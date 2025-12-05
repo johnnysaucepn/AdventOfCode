@@ -24,7 +24,7 @@ public class Day3
 
     public static int Part1(List<string> lines)
     {
-        var grid = Grid<char>.FromLinesAlpha(lines);
+        var grid = GridFactory.FromLinesAlpha(lines);
 
         List<PartNumber> partsFound = FindParts(lines, grid);
         foreach (var part in partsFound)
@@ -40,7 +40,7 @@ public class Day3
 
     public static int Part2(List<string> lines)
     {
-        var grid = Grid<char>.FromLinesAlpha(lines);
+        var grid = GridFactory.FromLinesAlpha(lines);
 
         List<PartNumber> partsFound = FindParts(lines, grid);
 

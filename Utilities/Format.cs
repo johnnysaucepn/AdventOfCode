@@ -31,4 +31,9 @@ public static class Format
         }
         return sb.ToString();
     }
+
+    public static string DumpGrid<T>(Grid<T> grid)
+    {
+        return DumpArray(grid.Data);
+    }
 }
