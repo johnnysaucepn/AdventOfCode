@@ -15,6 +15,8 @@ public class Day5
             Start = start;
             End = end;
         }
+
+        public long Span => (End - Start + 1);
     }
 
     public long Part1(List<List<string>> sets)
@@ -31,7 +33,19 @@ public class Day5
     {
         var ranges = ParseRanges(sets[0]);
 
-        throw new NotImplementedException();
+        var lastCount = 0;
+        var thisCount = 0;
+        do
+        {
+            lastCount = thisCount;
+            ranges = ConsolidateRanges(ranges).ToList();
+
+            thisCount = ranges.Count;
+            Console.WriteLine(thisCount);
+            foreach (var range in ranges) Console.WriteLine($"{range.Start}-{range.End}");
+        } while (thisCount != lastCount);
+
+        return ranges.Select(r => r.Span).Sum();
     }
 
     private bool IsFresh(long ingredient, List<Range> ranges)
@@ -59,6 +73,38 @@ public class Day5
                 var parts = l.Split('-');
                 return new Range(long.Parse(parts[0]), long.Parse(parts[1]));
             }).ToList();
+    }
+
+    private IEnumerable<Range> ConsolidateRanges(List<Range> ranges)
+    {
+        Queue<Range> inputRanges = new(ranges.OrderBy(r => r.Start));
+        Stack<Range> outputranges = [];
+
+        var firstRange = inputRanges.Dequeue();
+        outputranges.Push(firstRange);
+
+        while (inputRanges.Any())
+        {
+            var one = outputranges.Pop();
+            var two = inputRanges.Dequeue();
+
+            if (DoRangesOverlap(one, two))
+            {
+                var three = new Range(Math.Min(one.Start, two.Start), Math.Max(one.End, two.End));
+                outputranges.Push(three);
+            }
+            else
+            {
+                outputranges.Push(one);
+                outputranges.Push(two);
+            }
+        }
+        return outputranges.ToList();
+    }
+
+    private static bool DoRangesOverlap(Range one, Range two)
+    {
+        return two.Start <= one.End && one.Start <= two.End;
     }
 
     [Fact]
