@@ -12,3 +12,6 @@ Runner.Run("Day 3, Part 2", () => new Day3().Part2(Input.Strings(@"day3input.txt
 
 Runner.Run("Day 4, Part 1", () => new Day4().Part1(Input.Strings(@"day4input.txt")));
 Runner.Run("Day 4, Part 2", () => new Day4().Part2(Input.Strings(@"day4input.txt")));
+
+Runner.Run("Day 5, Part 1", () => new Day5().Part1(Input.StringSets(@"day5input.txt")));
+Runner.Run("Day 5, Part 2", () => new Day5().Part2(Input.StringSets(@"day5input.txt")));
