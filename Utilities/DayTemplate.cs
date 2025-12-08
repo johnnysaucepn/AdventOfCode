@@ -1,7 +1,7 @@
 ﻿using Utilities;
 using Xunit;
 
-public class Template
+public class DayTemplate
 {
     public long Part1(List<string> lines)
     {
