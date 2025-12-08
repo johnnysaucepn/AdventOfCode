@@ -53,6 +53,14 @@ public class Grid<T>
         }
     }
 
+    public IEnumerable<T> GetRow(int y)
+    {
+        for (var x = 0; x < Width; x++)
+        {
+            yield return Data[x, y];
+        }
+    }
+
     public void ForEach(Action<Coord> action)
     {
         for (var y = 0; y < Height; y++)
