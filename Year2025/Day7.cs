@@ -50,7 +50,42 @@ public class Day7
 
     public long Part2(List<string> lines)
     {
-        throw new NotImplementedException();
+        var manifold = GridFactory.FromLinesAlpha(lines);
+        var timelines = new Grid<long>(manifold.Width, manifold.Height);
+
+        var entry = lines[0].IndexOf('S');
+        manifold.SetAt(entry, 0, '|');
+        timelines.SetAt(entry, 0, 1);
+
+        for (var y = 0; y < manifold.Height - 1; y++)
+        {
+            for (var x = 0; x < manifold.Width; x++)
+            {
+                var here = new Coord(x, y);
+                var down = here.Down();
+                var splitLeft = here.DownLeft();
+                var splitRight = here.DownRight();
+                if (manifold.GetAt(here) == '|')
+                {
+                    var currentTimelines = timelines.GetAt(here);
+                    if (manifold.GetAt(down) == '^')
+                    {
+                        manifold.SetAt(splitLeft, '|');
+                        timelines.SetAt(splitLeft, timelines.GetAt(splitLeft) + currentTimelines);
+                        manifold.SetAt(splitRight, '|');
+                        timelines.SetAt(splitRight, timelines.GetAt(splitRight) + currentTimelines);
+                    }
+                    else
+                    {
+                        manifold.SetAt(down, '|');
+                        timelines.SetAt(down, timelines.GetAt(down) + currentTimelines);
+                    }
+                }
+            }
+            Console.WriteLine(Format.DumpGrid(manifold));
+            Console.WriteLine(Format.DumpGrid(timelines));
+        }
+        return timelines.GetRow(timelines.Height - 1).Sum();
     }
 
     [Fact]
@@ -62,7 +97,7 @@ public class Day7
     [Fact]
     public void Day7_Part2_Example()
     {
-        Assert.Equal(0, Part2(Input.Strings(@"day7example.txt")));
+        Assert.Equal(40, Part2(Input.Strings(@"day7example.txt")));
     }
 
 }
