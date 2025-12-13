@@ -47,7 +47,7 @@ public class Day6
 
 
         List<long> operands = [];
-        for (int x = startingX; x >= 0; x--)
+        for (long x = startingX; x >= 0; x--)
         {
             long operand = 0;
             for (int y = 0; y < operatorRow; y++)
