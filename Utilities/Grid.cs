@@ -2,19 +2,19 @@
 
 public class Grid<T>
 {
-    public int Width;
-    public int Height;
+    public long Width;
+    public long Height;
 
     internal readonly T[,] Data;
 
-    public Grid(int width, int height)
+    public Grid(long width, long height)
     {
         Width = width;
         Height = height;
         Data = new T[width, height];
     }
 
-    public T GetAt(int x, int y)
+    public T GetAt(long x, long y)
     {
         return Data[x, y];
     }
@@ -24,7 +24,7 @@ public class Grid<T>
         return Data[coord.X, coord.Y];
     }
 
-    public void SetAt(int x, int y, T val)
+    public void SetAt(long x, long y, T val)
     {
         Data[x, y] = val;
     }
@@ -45,7 +45,7 @@ public class Grid<T>
         return true;
     }
 
-    public IEnumerable<T> GetSequence(int x, int y, int extent)
+    public IEnumerable<T> GetSequence(long x, long y, long extent)
     {
         for (var i = 0; i < extent; i++)
         {
@@ -53,7 +53,7 @@ public class Grid<T>
         }
     }
 
-    public IEnumerable<T> GetRow(int y)
+    public IEnumerable<T> GetRow(long y)
     {
         for (var x = 0; x < Width; x++)
         {

@@ -2,10 +2,10 @@
 
 public record Coord
 {
-    public int X;
-    public int Y;
+    public long X;
+    public long Y;
 
-    public Coord(int x, int y)
+    public Coord(long x, long y)
     {
         X = x;
         Y = y;
@@ -19,4 +19,12 @@ public record Coord
     public Coord DownLeft() => new(X - 1, Y + 1);
     public Coord Left() => new(X - 1, Y);
     public Coord UpLeft() => new(X - 1, Y - 1);
+
+    public static Coord Parse(string s)
+    {
+        var parts = s.Split(',');
+        var x = long.Parse(parts[0]);
+        var y = long.Parse(parts[1]);
+        return new Coord(x, y);
+    }
 }
