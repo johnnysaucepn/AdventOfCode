@@ -18,6 +18,11 @@ public static class Format
         return sb.ToString();
     }
 
+    public static string DumpList<T>(IEnumerable<T> list)
+    {
+        return string.Join(",", list.Select(x => x.ToString()));
+    }
+
     public static string DumpArray<T>(T[,] array, int downScaleFactor = 1)
     {
         var sb = new StringBuilder();
